@@ -1,0 +1,31 @@
+<%- include('../partials/head'); %>
+<%- include('../partials/navbar'); %>
+<body>
+    <div style="display: flex; justify-content: center;">
+        <form class="centerForm">
+            <div>
+                <label for="chapterTitle" style="font-size: 22px; font-weight: bolder;">Chapter Title:</label>
+                <input type="text" name="chapter" class="textBox">    
+            </div>
+            <div>
+                <textarea name="chapter" cols="30" rows="10" placeholder="your story here!"></textarea>
+            </div>
+            <div>
+                <button>Save as draft</button>
+                <button>Publish!!</button>
+            </div>
+
+        </form>    
+    </div>
+</body>
+<script>
+    const textarea = document.querySelector('textarea');
+
+    textarea.addEventListener('input', () => {
+    const value = textarea.value;
+    const newValue = value.replace('---', '— ');
+    textarea.value = newValue;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    });
+</script>

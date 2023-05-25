@@ -2,6 +2,7 @@
 require('dotenv').config()
 const User = require('./models/Users.js')
 const express = require('express')
+const session = require('express-session')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -31,6 +32,10 @@ app.get('/home', function(req, res){
 
 app.get('/accountSucess', function(req, res){
     res.render('pages/warningPage')
+})
+
+app.get('/nc', function(req, res){
+    res.render('pages/newChapter')
 })
 
 app.post('/newAccount', async(req, res) => {
@@ -74,7 +79,12 @@ app.post('/', async function(req, res){
             const secret = process.env.SECRET
             const token = jwt.sign({
                 id : user.username
-            }, secret)
+            }, secret, {expiresIn: '1h'})
+            res.cookie('token', token, {
+                maxAge: 3600000,
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+              });
             return res.status(200).json({msg: 'logado com sucesso!', token})
         }
 
